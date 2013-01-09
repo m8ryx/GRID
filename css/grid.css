@@ -1,0 +1,112 @@
+body {
+    background: url('/splash/img/bg_1_1900x1200.jpg');
+/*    background-size: 1440px 800px;*/
+    background-repeat:no-repeat;
+    display: compact;
+}
+
+div.container{
+      width:919px;
+  }
+
+div.story{
+      height: 177px;
+      width: 100%;
+}
+
+#main {
+      padding-left: 20px;
+      padding-right: 20px;
+        /* Fallback for web browsers that don't support RGBa */
+        background-color: rgb(255, 255, 255);
+        /* RGBa with 0.6 opacity */
+        background-color: rgba(255, 255, 255, 0.9);
+        /* For IE 8*/
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+}
+
+b {
+    background-color: #f57735;
+    font-color: #ffffff;
+    font-size: small;
+    color: #ffffff;
+}
+
+p {
+    font-size: small;
+}
+
+/* This parent can be any width and height */
+.block {
+}
+
+/* The ghost, nudged to maintain perfect centering */
+.block:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+/* The element to be centered, can
+*    also be of any width and height */ 
+.centered {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#footer {
+    font-size: small;
+    text-align: center;
+}
+
+.hrule {
+    height: 1px;
+    line-height: 1px;
+    alignt: top;
+}
+
+
+
+div.imageSub { position: relative; }
+div.imageSub img { z-index: 1; }
+div.imageSub div {
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    bottom: 0;
+    padding: 4px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    overflow: hidden;
+}
+div.imageSub div.blackbg {
+    z-index: 2;
+    background-color: #000;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+}
+div.imageSub div.label {
+    z-index: 3;
+    color: white;
+}
+
+
+
+.spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer25 { height: 25px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer30 { height: 30px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer35 { height: 35px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer40 { height: 40px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer45 { height: 45px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer50 { height: 50px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer100 { height: 100px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer200 { height: 200px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+
