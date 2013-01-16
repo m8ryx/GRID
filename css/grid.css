@@ -1,5 +1,5 @@
 body {
-    background: url('/splash/img/bg_1_1900x1200.jpg');
+    background: url('/assets/splash/img/bg_1_1900x1200.jpg');
 /*    background-size: 1440px 800px;*/
     background-repeat:no-repeat;
     display: compact;
@@ -18,11 +18,13 @@ div.story{
       padding-left: 20px;
       padding-right: 20px;
         /* Fallback for web browsers that don't support RGBa */
-        background-color: rgb(255, 255, 255);
+        /* background-color: rgb(255, 255, 255); */
+        background-color: #FFFFFF;
         /* RGBa with 0.6 opacity */
         background-color: rgba(255, 255, 255, 0.9);
         /* For IE 8*/
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+        -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)"; // first!
+        filter: alpha(opacity=50);                                      // second!
 }
 
 b {
