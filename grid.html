@@ -1,42 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv=“X-UA-Compatible” content=“IE=8” />
 <title>Welcome to GRID</title>
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link rel="stylesheet" href="css/grid.css" type="text/css" media="screen, projection" />
-<script type="text/javascript"> 
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="css/grid.css" type="text/css" media="screen, projection" />
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type='text/javascript' src='https://grid.nike.com/assets/jwplayer/jwplayer.js'></script>
+
+<script type="text/javascript">
 function removeLeadSlash(url) {
     var newString = url.replace(/\%2F/gi,'/');
     var newString = newString.replace(/\%3F/gi,'?');
     var newString = newString.replace(/\%3D/gi,'=');
-//    alert(newString);
+    // alert(newString);
     return newString;
 }
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-	value = removeLeadSlash(value);
+        value = removeLeadSlash(value);
         vars[key] = value;
     });
     return vars;
 }
 function writeRedirectDest(dest){
     document.write('<input name="redirect" type="hidden" value="' + dest + '"/>');
-//    alert('<input name="redirect" type="hidden" value="' +dest+'"/>');
+    // alert('<input name="redirect" type="hidden" value="' +dest+'"/>');
 }
 
 var dest = getUrlVars()["redirect"];
+
+$('[placeholder]').focus(function() {
+        var input = $(this);
+        if (input.val() == input.attr('placeholder')) {
+                input.val('');
+                input.removeClass('placeholder');
+        }
+}).blur(function() {
+        var input = $(this);
+        if (input.val() == '' || input.val() == input.attr('placeholder')) {
+        input.addClass('placeholder');
+        input.val(input.attr('placeholder'));
+        }
+}).blur().parents('form').submit(function() {
+        $(this).find('[placeholder]').each(function() {
+                var input = $(this);
+                if (input.val() == input.attr('placeholder')) {
+                        input.val('');
+                }
+        })
+});
+
+</script>
+
+<script>
+$(document).ready(function(){
+    $.ajax({
+        type: "GET",
+//        url: "http://localhost/grid.xml",
+        url: "https://grid.nike.com/assets/gridrss/index.xml",
+        dataType: "xml",
+        success: function(xml) {
+            var id=0;
+            $(xml).find('item').each(function(){
+                var title = $(this).find('title').text();
+                var link = $(this).find('link').text(); //link is actually to the story on teh story.html page
+                var guid = $(this).find('guid').text();
+                var badimage = $(this).find('image').text();
+                var image = badimage.replace(/http:\/\/nikeblogs\.nike\.com/gi,"https://grid.nike.com/assets/zeroimage");
+                var video = $(this).find('video').text();
+                var body = $(this).find('body').text();
+                var description = $(this).find('description').text();
+                var pubDate = $(this).find('pubDate').text();
+                $('<div class="span3" id="story'+id+'"></div>').html('<a href="https://grid.nike.com/assets/splash/story.html?story='+id+'"><img src="'+image+'"></a>').appendTo('#stories');
+                $('<div class="spacer10">').html('').appendTo('#story'+id);
+                $('<div class="title">').html('<b>'+title.toUpperCase()+'</b>').appendTo('#story'+id);
+                $('<div class="description">').html(description).appendTo('#story'+id);
+                //                    $('<div class="body">').html(body).appendTo('#story'+id);
+                //                alert('title: '+title);
+                id++;
+                //only show 4 stories...
+                if (id > 3){return (false);}
+            });
+        }
+    });
+});
 </script>
 </head>
 <body>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <div class="block" style="height: 100px;">
     <div class="centered">
         <div class="container">
             <div class="row-fluid">
-                <div class="span12" id="main">
+                <div class="span12" id="main" bgcolor="#ffffff">
                     <div class ="row-fluid" id="spacer">
                         <div class="spacer30">
                         </div>
@@ -49,105 +108,66 @@ var dest = getUrlVars()["redirect"];
                             <div class="spacer20">
                             </div>
                             <div>
-				<form name="loginForm" method="post" id="loginForm" action="https://grid.nike.com/login">
-			             	<script type="text/javascript">
-					writeRedirectDest(dest)</script>
-					<input name="fromLogin" type="hidden" value="true" />	
-					<!--<div id="gridUName">Username</div>
-					<div class="gridFieldWrapper">	
-					<span class="gridInput">	
-					<input id="username_" name="login" type="text" value="Nike network username" onFocus="doClear(this);change(this, '#888888')" />	
-					</span>	</div><div id="gridPW">Password</div><div class="gridFieldWrapper">	
-					<span class="gridInput">	
-					<input id="password-clear" type="text" value="Nike network password" autocomplete="off" />	
-					<input id="password_" name="password" value="" type="password" autocomplete="off" />	
-					</span>	</div>
-					<div id="gridLoginSubmit">	
-					<input type="submit" value="Login" class="gridLoginSubmitBtn" />	
-					</div></form>-->
+                                <form name="loginForm" method="post" id="loginForm" action="https://gridqa.nike.com/login">
+                                    <script type="text/javascript">
+writeRedirectDest(dest)</script>
+                                    <input name="fromLogin" type="hidden" value="true" />   
                                     <input id="username_" class="input-medium" name="login" type="text" placeholder="Nike Network Username">
                                     <input id="password_" type="password" class="input-medium" name="password" placeholder="Nike Network Password">
                                     <button class="btn btn-warning" type="submit">LOG IN</button>
                                 </form>
                             </div>
                             <div id="grid_blurb">
-                            Grid is a collaboration platform that amplifies connections to accelerate business performance, inspire ideas, and ignite innovation<BR />
+                                Grid is a collaboration platform that amplifies connections to accelerate business performance, inspire ideas, and ignite innovation<BR />
 
-                            GRID is available to anyone who can log in to the NIKE, Inc. network, including employees, and ETWs of Nike and its Affiliates.
+                                GRID is available to anyone who can log in to the NIKE, Inc. network, including employees, and ETWs of Nike and its Affiliates.
                             </div>
                         </div>
                         <div class="span9">
-                                <img src="img/lebron_james.jpg">
+				<div id='mediaplayer'></div>
+				<script type="text/javascript">
+				  jwplayer('mediaplayer').setup({
+				    'flashplayer': 'https://grid.nike.com/assets/jwplayer/player.swf',
+				    'id': 'playerID',
+				    'image': 'https://grid.nike.com/assets/splash/img/lebron_james.jpg',
+				    'width': '530',
+				    'height': '360',
+				    'file': 'https://grid.nike.com/assets/videos/GRIDfinalLR.mp4',
+				    'bufferlength': '1',
+				    'autostart': 'false'
+				  });
+				</script>
+
                         </div>
                     </div>
-                        <div class="spacer25">
-                        </div>
-                    <div class="row-fluid" id="videos">
-                        <div class="span3">
-                            <a href="/story.html"><img src="img/hope_solo.png"></a>
-                            <div class="spacer10"></div>
-                            <div class="title">
-                                <a href="/story.html"><b>Title2</b></a>
-                            </div>
-                            <p>
-                                Lorem ipsum and such.  Two lines of it.
-                            </p>
-                        </div>
-                        <div class="span3">
-                            <a href="/story"><img src="img/wayne-rooney-2012-1280x720.jpg"></a>
-                            <div class="spacer10"></div>
-                            <div class="title">
-                                <a href="/story.html"><b>Title2</b></a>
-                            </div>
-                            <p>
-                                Lorem ipsum and such.  Two lines of it.
-                            </p>
-                        </div>
-                        <div class="span3">
-                            <img src="img/Nike_wallpaper_galaxy_1920x1200.jpg">
-                            <div class="spacer10"></div>
-                            <div class="title">
-                                <a href="/story.html"><b>Title3</b></a>
-                            </div>
-                            <p>
-                                Lorem ipsum and such.  Two lines of it.
-                            </p>
-                        </div>
-                        <div class="span3">
-                            <img src="img/nike_winter_fight_01.jpg">
-                            <div class="spacer10"></div>
-                            <div class="title">
-                                <a href="/story.html"><b>Title4</b></a>
-                            </div>
-                            <p>
-                                Lorem ipsum and such.  Two lines of it.
-                            </p>
-                        </div>
+                    <div class="spacer25">
                     </div>
-                        <div class="spacer25">
-                        </div>
-                        <div class="hrule">
-                            <image src="img/1px_dots.png" />
-                        </div>
-                        <div class="spacer20">
-                        </div>
+                    <div class="row-fluid" id="stories">
+                    </div>
+                    <div class="spacer25">
+                    </div>
+                    <div class="hrule">
+                        <image src="img/1px_dots.png" />
+                    </div>
+                    <div class="spacer20">
+                    </div>
                     <div id="affiliates">
-                        <img src="img/connect_collaborate_innovate.png" alt="Connect. Collaborate.  Innovate"><img src="img/affiliate_logos.png" alt="Affiliate Logos" align="right">
+                        <img src="img/connect_collaborate_innovate.png" alt="Connect. Collaborate. Innovate"><img src="img/affiliate_logos.png" alt="Affiliate Logos" align="right">
                     </div>
                     <div class ="row-fluid">
                         <div class="spacer20">
                         </div>
                     </div>
-                        <div class="hrule">
-                            <image src="img/1px_dots.png" />
-                        </div>
-                        <div class="spacer20">
-                        </div>
-                    <div id="footer">
-                        <A HREF="http://grid.nike.com/etiquette">GRID Etiquette</A> | <A HREF="http://grid.nike.com/TandC">Terms & Conditions</A> | <A HREF="http://grid.nike.com/Contact">Contact Us</A> | <EM>&copy; 2009-2013 Cisco Systems.  All rights reserved.  WebEx Social Version 3.1.0 10000 107</EM>
+                    <div class="hrule">
+                        <image src="img/1px_dots.png" />
                     </div>
-                        <div class="spacer30">
-                        </div>
+                    <div class="spacer20">
+                    </div>
+                    <div id="footer">
+                        <A HREF="https://grid.nike.com/etiquette">GRID Etiquette</A> | <A HREF="https://grid.nike.com/TandC">Terms & Conditions</A> | <A HREF="https://grid.nike.com/Contact">Contact Us</A> | <EM>&copy; 2009-2013 Cisco Systems. All rights reserved. WebEx Social Version 3.1.0 10000 107</EM>
+                    </div>
+                    <div class="spacer30">
+                    </div>
                 </div>
             </div>
         </div>
